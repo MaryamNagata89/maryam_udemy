@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 
 import { postEvent } from '../actions';
 
@@ -19,8 +21,14 @@ class EventsNew extends Component {
     } = field;
     return (
       <div>
-        <input {...input} placeholder={label} type={type} />
-        {touched && error && <span>{error}</span>}
+        <TextField
+          hintText={label}
+          floatingLabelText={label}
+          type={type}
+          errorText={touched && error}
+          {...input}
+          fullWidth={true}
+        />
       </div>
     );
   }
@@ -30,6 +38,7 @@ class EventsNew extends Component {
   }
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props;
+    const style = { margin: 12 };
     return (
       <React.Fragment>
         <form onSubmit={handleSubmit(this.onSubmit)}>
@@ -49,12 +58,17 @@ class EventsNew extends Component {
           </div>
 
           <div>
-            <input
+            <RaisedButton
+              label="Submit"
               type="submit"
-              value="submit"
+              style={style}
               disabled={pristine || submitting || invalid}
             />
-            <Link to="/">Cancel</Link>
+            <RaisedButton
+              label="Cancel"
+              style={style}
+              containerElement={<Link to="/" />}
+            />
           </div>
         </form>
       </React.Fragment>
